@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class InterenetExceptionWidget extends StatelessWidget {
@@ -10,7 +9,7 @@ class InterenetExceptionWidget extends StatelessWidget {
     return Column(
       children: [
         SizedBox(height: MediaQuery.of(context).size.height * 0.15,),
-        Icon(Icons.cloud_off,color: Colors.red,size:
+        const Icon(Icons.cloud_off,color: Colors.red,size:
           50,),
         Padding(
           padding: const EdgeInsets.only(top: 30.0),
