@@ -1,9 +1,13 @@
 import 'package:bloc_flutter/config/routes/routes_name.dart';
+import 'package:bloc_flutter/repository/auth/login_repository.dart';
 import 'package:flutter/material.dart';
-
+import 'package:get_it/get_it.dart';
 import 'config/routes/routes.dart';
 
+GetIt getIt = GetIt.instance;
+
 void main() {
+  serviceLocator();
   runApp(const MyApp());
 }
 
@@ -25,6 +29,10 @@ class MyApp extends StatelessWidget {
       // home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
+}
+
+void serviceLocator(){
+  getIt.registerLazySingleton<LoginRepository>(()=> LoginRepository());
 }
 
 

@@ -1,4 +1,8 @@
 import 'package:bloc_flutter/bloc/login_bloc.dart';
+import 'package:bloc_flutter/config/routes/routes_name.dart';
+import 'package:bloc_flutter/main.dart';
+import 'package:bloc_flutter/utils/enums.dart';
+import 'package:bloc_flutter/utils/flushbar_helper.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _loginBloc = LoginBloc();
+    _loginBloc = LoginBloc(loginRepository: getIt());
   }
 
   @override
@@ -88,15 +92,27 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                 ),
                 SizedBox(height: 50,),
-                BlocBuilder<LoginBloc, LoginState>(
-                  buildWhen: (c,p)=> false,
-                  builder: (context, state) {
-                    return ElevatedButton(onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        //pp
-                      }
-                    }, child: Text('Login'));
+                BlocListener<LoginBloc, LoginState>(
+                  listenWhen: (c,p)=> c.postApiStatus != p.postApiStatus,
+                  listener: (context, state) {
+                    if(state.postApiStatus == PostApiStatus.error){
+                      FlushbarHelper.flushBarErrorMessage(state.message.toString(), context);
+                    }
+
+                    if(state.postApiStatus == PostApiStatus.success){
+                      Navigator.pushNamed(context, RoutesName.homeScreen);
+                    }
                   },
+                  child: BlocBuilder<LoginBloc, LoginState>(
+                    buildWhen: (c, p) => false,
+                    builder: (context, state) {
+                      return ElevatedButton(onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          context.read<LoginBloc>().add(LoginApi());
+                        }
+                      }, child: Text('Login'));
+                    },
+                  ),
                 )
               ],
             ),

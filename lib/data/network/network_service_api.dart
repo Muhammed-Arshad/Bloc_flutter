@@ -15,7 +15,7 @@ class NetworkServiceApi implements BaseApiServices{
 
     try{
 
-      final response = await http.get(Uri.parse("uri")).timeout(Duration(seconds: 50));
+      final response = await http.get(Uri.parse(url)).timeout(Duration(seconds: 50));
 
       jsonResponse = returnResponse(response);
 
@@ -35,14 +35,16 @@ class NetworkServiceApi implements BaseApiServices{
     dynamic jsonResponse;
 
     try{
-
-      final response = await http.post(Uri.parse("uri"),body: data).timeout(Duration(seconds: 50));
-
+      print('lllll');
+      final response = await http.post(Uri.parse(url),body: data).timeout(const Duration(seconds: 50));
+      print('kkkk');
       jsonResponse = returnResponse(response);
 
     }on SocketException{
+      print('gggggg');
       throw NoInternetConnection('No internet');
     }on TimeoutException{
+      print('ffffff');
       throw FetchDataException('Time out try again');
     }
 
@@ -52,6 +54,7 @@ class NetworkServiceApi implements BaseApiServices{
 
 
   dynamic returnResponse(http.Response response){
+    print(response.statusCode);
     switch(response.statusCode){
       case 200:
         dynamic jsonResponse = jsonDecode(response.body);
