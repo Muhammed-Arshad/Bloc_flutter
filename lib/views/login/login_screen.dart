@@ -1,4 +1,4 @@
-import 'package:bloc_flutter/bloc/login_bloc.dart';
+import 'package:bloc_flutter/bloc/login_blocs/login_bloc.dart';
 import 'package:bloc_flutter/config/routes/routes_name.dart';
 import 'package:bloc_flutter/main.dart';
 import 'package:bloc_flutter/utils/enums.dart';
